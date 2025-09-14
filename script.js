@@ -61,6 +61,7 @@ function initializeNavigation() {
     sections.forEach((section) => {
       const sectionTop = section.offsetTop
       const sectionHeight = section.clientHeight
+      // Adjust offset for navigation bar height and to make it active slightly earlier
       if (scrollY >= sectionTop - 200) {
         current = section.getAttribute("id")
       }
@@ -116,16 +117,18 @@ function initializePortfolioFilter() {
 
         if (filter === "all" || category === filter) {
           item.classList.remove("hidden")
-          setTimeout(() => {
+          // Use requestAnimationFrame for smoother transitions
+          requestAnimationFrame(() => {
             item.style.display = "block"
-          }, 10)
+          })
         } else {
           item.classList.add("hidden")
+          // Wait for the transition to finish before hiding
           setTimeout(() => {
             if (item.classList.contains("hidden")) {
               item.style.display = "none"
             }
-          }, 300)
+          }, 300) // Match this duration with your CSS transition for .portfolio-item.hidden
         }
       })
     })
@@ -185,7 +188,9 @@ function initializeSmoothScroll() {
       const targetSection = document.querySelector(targetId)
 
       if (targetSection) {
-        const offsetTop = targetSection.offsetTop - 70 // Account for fixed navbar
+        // Account for fixed navbar height
+        const navbarHeight = document.getElementById("navbar").offsetHeight
+        const offsetTop = targetSection.offsetTop - navbarHeight
 
         window.scrollTo({
           top: offsetTop,
@@ -243,7 +248,8 @@ function showNotification(message, type) {
 window.addEventListener("scroll", () => {
   const scrolled = window.pageYOffset
   const hero = document.querySelector(".hero")
-  const rate = scrolled * -0.5
+  // Adjust parallax effect speed as needed
+  const rate = scrolled * -0.3
 
   if (hero) {
     hero.style.transform = `translateY(${rate}px)`
@@ -255,17 +261,19 @@ function throttle(func, wait) {
   let timeout
   return function executedFunction(...args) {
     const later = () => {
-      clearTimeout(timeout)
+      timeout = null
       func(...args)
     }
-    clearTimeout(timeout)
-    timeout = setTimeout(later, wait)
+    if (!timeout) {
+      timeout = setTimeout(later, wait)
+    }
   }
 }
 
-// Apply throttling to scroll events
+// Apply throttling to scroll events - example for initializing scroll animations only once
 const throttledScrollHandler = throttle(() => {
-  // Scroll-dependent functions can be called here
+  // You can add other scroll-dependent logic here if needed,
+  // but for scroll animations, the Intersection Observer handles it efficiently.
 }, 16) // ~60fps
 
 window.addEventListener("scroll", throttledScrollHandler)
@@ -287,16 +295,18 @@ document.addEventListener("keydown", (e) => {
 // Focus management for accessibility
 document.addEventListener("DOMContentLoaded", () => {
   const focusableElements = document.querySelectorAll(
-    'a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])',
+    'a[href]:not([disabled]), button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
   )
 
   focusableElements.forEach((element) => {
     element.addEventListener("focus", function () {
-      this.style.outline = "2px solid #007BFF"
-      this.style.outlineOffset = "2px"
+      // Add a distinct outline for focused elements
+      this.style.outline = "2px solid #007BFF";
+      this.style.outlineOffset = "2px";
     })
 
     element.addEventListener("blur", function () {
+      // Remove the outline when the element loses focus
       this.style.outline = ""
       this.style.outlineOffset = ""
     })

@@ -378,6 +378,70 @@ p {
   transform: scale(1.05);
 }
 
+/* Education Section */
+.education {
+  background-color: #ffffff;
+}
+
+.education-timeline {
+  position: relative;
+  max-width: 700px;
+  margin: 3rem auto;
+  padding: 2rem 0;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 3rem;
+  padding-left: 30px;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  background-color: #007bff;
+}
+
+.timeline-item::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: -5px;
+  width: 12px;
+  height: 12px;
+  background-color: #ffffff;
+  border: 3px solid #007bff;
+  border-radius: 50%;
+}
+
+.timeline-content {
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.timeline-title {
+  font-size: 1.3rem;
+  color: #000000;
+  margin-bottom: 0.5rem;
+}
+
+.timeline-subtitle {
+  color: #007bff;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.timeline-duration {
+  color: #666666;
+  font-size: 0.9rem;
+}
+
 /* Skills Section */
 .skills-grid {
   display: grid;
